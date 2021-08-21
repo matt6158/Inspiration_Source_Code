@@ -1,3 +1,23 @@
+@formexe.command(pass_context=True)
+async def misc(ctx):
+    embed = discord.Embed(
+        title = 'Miscellaneous',
+        colour = discord.Colour(formexehex),
+    )
+    helpl = ("""
+youtube
+spotify
+twitch
+giveaway
+winner
+selfbot
+""")
+    embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
+    embed.set_thumbnail(url=formexe.user.avatar_url)
+    embed.add_field(name='Prefix ', value=formexep, inline=True)
+    embed.add_field(name='Commands ', value=helpl, inline=False)
+    await ctx.send(embed=embed)
+
 @formexe.command()
 @commands.has_permissions(manage_messages=True)
 async def giveaway(ctx, *, arg):
