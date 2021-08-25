@@ -111,7 +111,7 @@ async def gif(ctx, search=None):
     else:
         q=seach
 
-    api_key="VbVWF4MAVFl03GXzHF9twGIDvNL1x7Za"
+    api_key="" #api token
     api_instance = giphy_client.DefaultApi()
 
     try:
