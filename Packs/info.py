@@ -148,7 +148,7 @@ async def channelinfo(ctx, chan: Optional[discord.TextChannel]):
         title = f'Stats for: {channel.name}',
         description = f'List of details about: {channel.name}',
         timestamp=datetime.datetime.utcnow(),
-        colour = discord.Colour(0x7011e7),
+        colour = discord.Colour(formexehex),
     )
     embed.add_field(name="Channel Guild", value=ctx.guild.name, inline=False)
     embed.add_field(name="Channel Id", value=channel.id, inline=False)
