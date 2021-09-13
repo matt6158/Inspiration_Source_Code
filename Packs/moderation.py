@@ -1,7 +1,7 @@
 @formexe.command(pass_context=True)
 async def mod(ctx):
     embed = discord.Embed(
-        title = 'Mod',
+        title = 'Moderation ',
         colour = discord.Colour(formexehex),
     )
     helpl = ("""
@@ -132,3 +132,5 @@ async def unlock(ctx, role : discord.Role = None):
 async def dm(ctx, users: Greedy[User], *, arg):
     for user in users:
         await user.send(arg)
+    await ctx.message.delete()
+    await ctx.send('DMs sent')
