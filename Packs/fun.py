@@ -18,10 +18,26 @@ l2g
 calculate
 rpc
 """)
+    helpf = (f"""
+{formexep}8ball [message]
+{formexep}rate [message]
+{formexep}roll [num][dice][num]
+{formexep}flip
+{formexep}topic
+{formexep}gif [search]
+{formexep}choose [options]
+{formexep}echo [times] [message]
+{formexep}ascii [message]
+{formexep}l2g [search]
+{formexep}calculate [sum]
+{formexep}rpc
+""")
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
-    embed.add_field(name='Prefix ', value=formexep, inline=True)
-    embed.add_field(name='Commands ', value=helpl, inline=False)
+    embed.add_field(name='Commands ', value=helpl)
+    embed.add_field(name='Format ', value=helpf)
+    embed.add_field(name='Prefix ', value=formexep, inline=False)
+    embed.set_footer(text=ctx.message.guild.name)
     await ctx.send(embed=embed)
 
 @formexe.command(name='8ball',
@@ -111,7 +127,7 @@ async def gif(ctx, search=None):
     else:
         q=seach
 
-    api_key="" #api token
+    api_key="VbVWF4MAVFl03GXzHF9twGIDvNL1x7Za"
     api_instance = giphy_client.DefaultApi()
 
     try:
