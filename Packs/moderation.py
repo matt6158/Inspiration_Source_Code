@@ -17,10 +17,25 @@ dm
 unmute
 unban
 """)
+    helpf = (f"""
+{formexep}warn [@member] [reason]
+{formexep}mute [@member]
+{formexep}kick [@member] [reason]
+{formexep}ban [@member] [reason]
+{formexep}hackban [member_id]
+{formexep}purge [@member] [number]
+{formexep}lock - optional [@role]
+{formexep}unlock - optional [@role]
+{formexep}dm [@members] [message]
+{formexep}unmute [@member]
+{formexep}unban [member_name]
+""")
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
-    embed.add_field(name='Prefix ', value=formexep, inline=True)
-    embed.add_field(name='Commands ', value=helpl, inline=False)
+    embed.add_field(name='Commands ', value=helpl)
+    embed.add_field(name='Format ', value=helpf)
+    embed.add_field(name='Prefix ', value=formexep, inline=False)
+    embed.set_footer(text=ctx.message.guild.name)
     await ctx.send(embed=embed)
 
 @formexe.command(pass_context = True)
