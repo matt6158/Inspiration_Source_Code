@@ -12,10 +12,20 @@ rolecolour
 rolecount
 deleterole
 """)
+    helpf = (f"""
+{formexep}addrole [@member] [role]
+{formexep}removerole [@member] [role]
+{formexep}createrole [name]
+{formexep}rolecolour [role]
+{formexep}rolecount [role]
+{formexep}deleterole [role]
+""")
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
-    embed.add_field(name='Prefix ', value=formexep, inline=True)
-    embed.add_field(name='Commands ', value=helpl, inline=False)
+    embed.add_field(name='Commands ', value=helpl)
+    embed.add_field(name='Format ', value=helpf)
+    embed.add_field(name='Prefix ', value=formexep, inline=False)
+    embed.set_footer(text=ctx.message.guild.name)
     await ctx.send(embed=embed)
 
 @formexe.command(pass_context=True, aliases=['ar'])
