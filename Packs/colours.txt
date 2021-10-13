@@ -1,0 +1,39 @@
+#red 0xFF0000
+#green 0x00FF00
+#blue 0x0000FF
+#yellow 0xFFFF00
+#lightblue 0x00FFFF
+#lightgreen 0x90EE90
+#lightred 0xFF2D00
+#purple 0xA020F0
+#pink 0xFFC0CB
+#orange 0xFFA500
+#white 0xFFFFFF
+#black 0x000001
+#lime 0xBFFF00
+#cyan 0x00FFFF
+#gold 0xFFD700
+
+#inspiration 0x7011e7
+#spotify 0x1DB954
+#discord 0x7289da
+#twitch 0x6441a5
+#youtube 0xFF0000
+#genius  0xffff64
+
+White	#FFFFFF	rgb(255, 255, 255)
+Silver	#C0C0C0	rgb(192, 192, 192)
+Gray	#808080	rgb(128, 128, 128)
+Black	#000000	rgb(0, 0, 0)
+Red	#FF0000	rgb(255, 0, 0)
+Maroon	#800000	rgb(128, 0, 0)
+Yellow	#FFFF00	rgb(255, 255, 0)
+Olive	#808000	rgb(128, 128, 0)
+Lime	#00FF00	rgb(0, 255, 0)
+Green	#008000	rgb(0, 128, 0)
+Aqua	#00FFFF	rgb(0, 255, 255)
+Teal	#008080	rgb(0, 128, 128)
+Blue	#0000FF	rgb(0, 0, 255)
+Navy	#000080	rgb(0, 0, 128)
+Fuchsia	#FF00FF	rgb(255, 0, 255)
+Purple	#800080	rgb(128, 0, 128)
