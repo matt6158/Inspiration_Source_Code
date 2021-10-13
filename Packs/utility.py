@@ -15,11 +15,29 @@ nickname
 avatar
 jumbo
 react
+selfbot
+colour
+""")
+    helpf = (f"""
+{formexep}createchannel [channel_type] [name]
+{formexep}deletechannel [channel_name]
+{formexep}slomode [#channel] [seconds]
+{formexep}announce [#channel] [message]
+{formexep}quote [title]
+{formexep}say [message]
+{formexep}nickname [@member] [name]
+{formexep}avatar [@member]
+{formexep}jumbo [emoji]
+{formexep}react [message_id] [emoji]
+{formexep}selfbot [message]
+{formexep}colour [hex]
 """)
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
-    embed.add_field(name='Prefix ', value=formexep, inline=True)
-    embed.add_field(name='Commands ', value=helpl, inline=False)
+    embed.add_field(name='Commands ', value=helpl)
+    embed.add_field(name='Format ', value=helpf)
+    embed.add_field(name='Prefix ', value=formexep, inline=False)
+    embed.set_footer(text=ctx.message.guild.name)
     await ctx.send(embed=embed)
 
 @formexe.command(pass_context=True , aliases=['cc'])
@@ -114,7 +132,7 @@ async def nickname(ctx, member: discord.Member, nick):
 @formexe.command()
 async def avatar(ctx, member : discord.Member = None):
     member = ctx.message.author if not member else member
-    embed = discord.Embed(colour=member.color)
+    embed = discord.Embed(colour=member.color, title='Avatar')
     embed.set_image(url=member.avatar_url)
     await ctx.send(embed=embed)
 
@@ -130,3 +148,17 @@ async def jumbo(ctx, emoji: Union[discord.Emoji, discord.PartialEmoji]):
 async def react(ctx, message : discord.Message, *, arg):
     await message.add_reaction(arg)
     await ctx.message.delete()
+
+@formexe.command()
+@commands.has_permissions(manage_messages=True)
+async def selfbot(ctx, *, arg):
+    await ctx.message.delete()
+    webhook = await ctx.message.channel.create_webhook(name='selfbot')
+    await webhook.send(content=arg, username=ctx.message.author.name, avatar_url=ctx.message.author.avatar_url)
+    await webhook.delete()
+
+@formexe.command()
+async def colour(ctx, value : str):
+    embed = discord.Embed(colour=formexehex, title='Colour')
+    embed.set_image(url='http://www.colorhexa.com/{}.png'.format(str(value).strip("#")))
+    await ctx.send(embed=embed)
