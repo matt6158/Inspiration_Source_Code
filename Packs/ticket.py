@@ -10,10 +10,18 @@ report
 vcticket
 close
 """)
+    helpf = (f"""
+{formexep}ticket
+{formexep}report
+{formexep}vcticket
+{formexep}close - optional [#channel]
+""")
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
-    embed.add_field(name='Prefix ', value=formexep, inline=True)
-    embed.add_field(name='Commands ', value=helpl, inline=False)
+    embed.add_field(name='Commands ', value=helpl)
+    embed.add_field(name='Format ', value=helpf)
+    embed.add_field(name='Prefix ', value=formexep, inline=False)
+    embed.set_footer(text=ctx.message.guild.name)
     await ctx.send(embed=embed)
 
 @formexe.command(pass_context = True)
@@ -23,7 +31,7 @@ async def ticket(ctx):
     msg = await ctx.send('Creating Ticket...')
     await asyncio.sleep(3)
     await msg.delete()
-    guild = formexe.get_guild(formemg)
+    guild = formexe.get_guild(tauth.guild.id)
     logs = discord.utils.get(guild.channels, name='ticket-logs')
     if logs == None:
         cat = await guild.create_category(name='Tickets')
@@ -58,7 +66,7 @@ async def report(ctx):
     msg = await ctx.send('Creating Report Ticket...')
     await asyncio.sleep(3)
     await msg.delete()
-    guild = formexe.get_guild(formemg)
+    guild = formexe.get_guild(tauth.guild.id)
     logs = discord.utils.get(guild.channels, name='ticket-logs')
     if logs == None:
         cat = await guild.create_category(name='Tickets')
@@ -94,7 +102,7 @@ async def vcticket(ctx):
     msg = await ctx.send('Creating Vc Ticket...')
     await asyncio.sleep(3)
     await msg.delete()
-    guild = formexe.get_guild(formemg)
+    guild = formexe.get_guild(tauth.guild.id)
     logs = discord.utils.get(guild.channels, name='ticket-logs')
     if logs == None:
         cat = await guild.create_category(name='Tickets')
@@ -116,9 +124,25 @@ async def close(ctx, channel : discord.TextChannel = None):
     if ('ticket-logs') in channel.name:
         pass
     elif ('ticket') in channel.name:
-        await channel.delete()
+        ticket = formexe.get_channel(channel.id)
+        guild = formexe.get_guild(tauth.guild.id)
+        logs = discord.utils.get(guild.channels, name='ticket-logs')
+        embed = discord.Embed(
+            colour = discord.Colour(formexehex),
+            title = (f'{ctx.message.channel.name} was closed by {ctx.message.author}'),
+        )
+        await logs.send(embed=embed)
+        await ticket.delete()
     elif ('report') in channel.name:
-        await channel.delete()
+        ticket = formexe.get_channel(before.channel.id)
+        guild = formexe.get_guild(tauth.guild.id)
+        logs = discord.utils.get(guild.channels, name='ticket-logs')
+        embed = discord.Embed(
+            colour = discord.Colour(formexehex),
+            title = (f'{ctx.message.channel.name} was closed by {ctx.message.author}'),
+        )
+        await logs.send(embed=embed)
+        await ticket.delete()
     else:
         pass
 
@@ -128,4 +152,10 @@ async def on_voice_state_update(member, before, after):
         pass
     elif before.channel.name == (f'{member.name} ticket') and after.channel is None:
             channel = formexe.get_channel(before.channel.id)
+            logs = discord.utils.get(member.guild.channels, name='ticket-logs')
+            embed = discord.Embed(
+                colour = discord.Colour(formexehex),
+                title = (f'{channel.name} was closed by {member}'),
+            )
+            await logs.send(embed=embed)
             await channel.delete()
