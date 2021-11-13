@@ -17,6 +17,9 @@ ascii
 l2g
 calculate
 rpc
+dailyfact
+urban
+combine
 """)
     helpf = (f"""
 {formexep}8ball [message]
@@ -31,6 +34,9 @@ rpc
 {formexep}l2g [search]
 {formexep}calculate [sum]
 {formexep}rpc
+{formexep}dailyfact
+{formexep}urban [search]
+{formexep}combine [name1] [name2]
 """)
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
@@ -38,7 +44,54 @@ rpc
     embed.add_field(name='Format ', value=helpf)
     embed.add_field(name='Prefix ', value=formexep, inline=False)
     embed.set_footer(text=ctx.message.guild.name)
-    await ctx.send(embed=embed)
+    msg = await ctx.send(embed=embed)
+    await asyncio.sleep(60)
+    await msg.delete()
+    await ctx.message.delete()
+
+@formexe.command(name="dailyfact")
+async def dailyfact(context):
+    async with aiohttp.ClientSession() as session:
+        async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
+            if request.status == 200:
+                data = await request.json()
+                embed = discord.Embed(description=data["text"], color=formexehex)
+                await context.send(embed=embed)
+            else:
+                embed = discord.Embed(
+                    title="Error!",
+                    description="There is something wrong with the API, please try again later",
+                    color=formexehex
+                )
+                await context.send(embed=embed)
+                dailyfact.reset_cooldown(context)
+
+@formexe.command(name="Urban dictionary",aliases=["urban", "urband"])
+async def urbandictionary(ctx, term):
+    url = "https://mashape-community-urban-dictionary.p.rapidapi.com/define"
+    querystring = {"term":term}
+
+    headers = {
+    'x-rapidapi-host': "mashape-community-urban-dictionary.p.rapidapi.com",
+    'x-rapidapi-key': ""
+    }
+    async with ClientSession() as session:
+        async with session.get(url, headers=headers, params=querystring) as response:
+            r = await response.json()
+            definition = r['list'][0]['definition']
+            embed = discord.Embed(title=f"First result for:{term}", description=None, colour=formexehex)
+            embed.add_field(name=term, value=definition, inline=False)
+            await ctx.send(embed=embed)
+    await session.close()
+
+@formexe.command()
+async def combine(ctx, name1: str, name2: str):
+    name1letters = name1[:round(len(name1) / 2)]
+    name2letters = name2[round(len(name2) / 2):]
+    ship = "".join([name1letters, name2letters])
+    emb = (discord.Embed(color=formexehex, description = f"{ship}"))
+    emb.set_author(name=f"{name1} + {name2}")
+    await ctx.send(embed=emb)
 
 @formexe.command(name='8ball',
             pass_context = True)
