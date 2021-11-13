@@ -21,7 +21,10 @@ poll
     embed.add_field(name='Commands ', value=helpl)
     embed.add_field(name='Format ', value=helpf)
     embed.add_field(name='Prefix ', value=formexep, inline=False)
-    await ctx.send(embed=embed)
+    msg = await ctx.send(embed=embed)
+    await asyncio.sleep(60)
+    await msg.delete()
+    await ctx.message.delete()
 
 @formexe.command()
 @commands.has_permissions(manage_messages=True)
