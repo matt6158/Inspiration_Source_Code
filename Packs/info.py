@@ -1,25 +1,7 @@
-def find_server(msg):
-        server = None
-        if msg:
-            try:
-                float(msg)
-                server = formexe.get_guild(int(msg))
-                if not server:
-                    return 'Server not found.', False
-            except:
-                for i in formexe.guilds:
-                    if i.name.lower() == msg.lower().strip():
-                        server = i
-                        break
-                if not server:
-                    return 'Could not find server. Note: You must be a member of the server you are trying to search.', False
-
-        return server, True
-
 @formexe.command(pass_context=True)
 async def info(ctx):
     embed = discord.Embed(
-        title = 'Info',
+        title = 'Information',
         colour = discord.Colour(formexehex),
     )
     helpl = ("""
@@ -30,11 +12,24 @@ channelinfo
 botinfo
 invites
 """)
+    helpf = (f"""
+{formexep}roleinfo [server_id] [role]
+{formexep}userinfo - optional [@member]
+{formexep}serverinfo
+{formexep}channelinfo - optional [#channel]
+{formexep}botinfo
+{formexep}invites - optional [@member]
+""")
     embed.set_author(name=formexe.user.name, icon_url=formexe.user.avatar_url)
     embed.set_thumbnail(url=formexe.user.avatar_url)
-    embed.add_field(name='Prefix ', value=formexep, inline=True)
-    embed.add_field(name='Commands ', value=helpl, inline=False)
-    await ctx.send(embed=embed)
+    embed.add_field(name='Commands ', value=helpl)
+    embed.add_field(name='Format ', value=helpf)
+    embed.add_field(name='Prefix ', value=formexep, inline=False)
+    embed.set_footer(text=ctx.message.guild.name)
+    msg = await ctx.send(embed=embed)
+    await asyncio.sleep(60)
+    await msg.delete()
+    await ctx.message.delete()
 
 
 @formexe.command()
