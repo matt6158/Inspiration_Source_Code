@@ -22,7 +22,10 @@ close
     embed.add_field(name='Format ', value=helpf)
     embed.add_field(name='Prefix ', value=formexep, inline=False)
     embed.set_footer(text=ctx.message.guild.name)
-    await ctx.send(embed=embed)
+    msg = await ctx.send(embed=embed)
+    await asyncio.sleep(60)
+    await msg.delete()
+    await ctx.message.delete()
 
 @formexe.command(pass_context = True)
 async def ticket(ctx):
@@ -121,6 +124,7 @@ async def vcticket(ctx):
 @commands.has_permissions(manage_messages=True)
 async def close(ctx, channel : discord.TextChannel = None):
     channel = ctx.message.channel if not channel else channel
+    tauth = ctx.message.author
     if ('ticket-logs') in channel.name:
         pass
     elif ('ticket') in channel.name:
@@ -134,7 +138,7 @@ async def close(ctx, channel : discord.TextChannel = None):
         await logs.send(embed=embed)
         await ticket.delete()
     elif ('report') in channel.name:
-        ticket = formexe.get_channel(before.channel.id)
+        ticket = formexe.get_channel(channel.id)
         guild = formexe.get_guild(tauth.guild.id)
         logs = discord.utils.get(guild.channels, name='ticket-logs')
         embed = discord.Embed(
